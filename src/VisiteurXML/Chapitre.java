@@ -12,11 +12,11 @@ public class Chapitre extends Noeud {
 		paragraphe = new ArrayList<Paragraphe>();
 		titre = "";
 	}
-	
+
 	public void definirTitre(String titre){
 		this.titre = titre;
 	}
-	
+
 	public void ajouterParagraphe(Paragraphe paragraphe){
 		super.ajouterEnfant(paragraphe);
 		this.paragraphe.add(paragraphe);
@@ -24,10 +24,10 @@ public class Chapitre extends Noeud {
 
 	public void accept(VisiteurIF visiteur) {
 		visiteur.visit(this);
-		
+
 		for(NoeudIF noeud : this.obtEnfants()){
 			noeud.accept(visiteur);
 		}
 	}
-	
+
 }

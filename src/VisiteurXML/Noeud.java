@@ -31,7 +31,7 @@ public abstract class Noeud implements NoeudIF {
 	}
 
 	public Noeud obtParent() { return parent; }
-	
+
 	public List<Noeud> obtEnfants() { return enfants; }
 
 }

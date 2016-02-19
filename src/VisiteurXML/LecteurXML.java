@@ -18,12 +18,12 @@ public class LecteurXML {
 
 	private static List<Livre> listeLivre;
 	private static MyHandler handler;
-	private static Livre livreCourant;
-	
+	private Livre livreCourant;
+
 	public LecteurXML(){
 		handler = new MyHandler();
 	}
-	
+
 	public static void lireXML(File XML){
 		try {
 			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
@@ -41,30 +41,30 @@ public class LecteurXML {
 		listeLivre.add(livre);
 		definirLivreCourant(livre);
 	}
-	
+
 	private void definirLivreCourant(Livre livre){
 		this.livreCourant = livre;
 	}
-	
+
 	public List<Livre> obtenirListeLivre(){
 		return listeLivre;
 	}
-	
+
 	public Livre obtenirLivreCourant(){
 		return livreCourant;
 	}
-	
+
 	public Livre obtenirLivre(String titre){
 		Livre livre = null;
 		Iterator<Livre> iterator = listeLivre.iterator();
-		
+
 		while(iterator.hasNext()){
 			livre = iterator.next();
 			if(iterator.next().titre.equals(titre)){
 				break;
 			}
 		}
-		
+
 		return livre;
 	}
 
@@ -100,7 +100,6 @@ public class LecteurXML {
 			}
 		}
 
-
 		@Override
 		public void endElement(String uri, String localName, String qName) throws SAXException {
 			if (qName.equalsIgnoreCase("livre")) {
@@ -109,7 +108,6 @@ public class LecteurXML {
 				livre.ajouterChapitre(chapitre);
 			}
 		}
-
 
 		@Override
 		public void characters(char ch[], int start, int length) throws SAXException {
