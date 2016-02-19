@@ -7,7 +7,7 @@ public class Paragraphe extends Noeud{
 		super(chapitre);
 		paragraphe = "";
 	}
-	
+
 	public void definirParagraphe(String paragraphe){
 		this.paragraphe = paragraphe;
 	}
