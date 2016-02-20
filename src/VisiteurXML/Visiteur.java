@@ -11,11 +11,18 @@ public abstract class Visiteur implements VisiteurIF {
 	}
 	
 	public void debutTexteHTML(){
-		texteHTML = "<HTML><TABLE WIDTH=100% HEIGHT=100% BORDER = 0 CELLSPACING=0 BGCOLOR=\"black\"><TR><TD COLSPAN = 3 BGCOLOR=\"yellow\" ALIGN=\"center\">";
+		texteHTML = "<HTML><TABLE WIDTH=100% HEIGHT=100% BORDER = 0 CELLSPACING=0 BGCOLOR=\"black\"><TR><TD ";
 	}
 	
 	public void finTexteHTML(){
 		texteHTML += "</TD></TR></TABLE></HTML>";
+	}
+	
+	protected void affichageLivreEntierOuTabMat(String typeOptions){
+		switch(typeOptions){
+		case "TabMat" : texteHTML += "WIDTH=550 HEIGHT=620 BGCOLOR=\"yellow\" ALIGN=\"center\">"; 	break;
+		case "Entier" : texteHTML += "COLSPAN = 3 BGCOLOR=\"yellow\" ALIGN=\"center\">";			break;
+		}
 	}
 
 	protected void obtenirAuteur(Livre livre){

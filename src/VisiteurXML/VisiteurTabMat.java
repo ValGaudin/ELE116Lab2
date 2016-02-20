@@ -4,6 +4,7 @@ public class VisiteurTabMat extends Visiteur{
 
 	public void visit(Livre livre) {
 		debutTexteHTML();
+		affichageLivreEntierOuTabMat("TabMat");
 		ajouterImageLivre(livre);
 		nouvelleColonne();
 		texteGrosTitre(livre.titre);

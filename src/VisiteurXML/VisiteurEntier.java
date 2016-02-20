@@ -5,6 +5,7 @@ public class VisiteurEntier extends Visiteur{
 
 	public void visit(Livre livre) {
 		debutTexteHTML();
+		affichageLivreEntierOuTabMat("Entier");
 		texteGrosTitre(livre.titre);
 		textePetitTitre("Auteurs");
 		obtenirAuteur(livre);
