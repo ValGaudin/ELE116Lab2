@@ -60,7 +60,7 @@ public class LecteurXML {
 
 		while(iterator.hasNext()){
 			livre = iterator.next();
-			if(iterator.next().titre.equals(titre)){
+			if(iterator.next().obtenirTitre().equals(titre)){
 				break;
 			}
 		}
@@ -134,7 +134,7 @@ public class LecteurXML {
 
 			} else if (bParagraphe){
 				paragraphe = new Paragraphe(chapitre);
-				paragraphe.paragraphe = new String(ch, start, length);
+				paragraphe.definirParagraphe(new String(ch, start, length));
 				chapitre.ajouterParagraphe(paragraphe);
 				bParagraphe = false;
 			}

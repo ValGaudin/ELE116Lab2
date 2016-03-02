@@ -1,12 +1,12 @@
 package VisiteurXML;
 
 public class VisiteurEntier extends Visiteur{
-	int nbParaCol = 1;
+	private int nbParaCol = 1;
 
 	public void visit(Livre livre) {
 		debutTexteHTML();
 		affichageLivreEntierOuTabMat("Entier");
-		texteGrosTitre(livre.titre);
+		texteGrosTitre(livre.obtenirTitre());
 		textePetitTitre("Auteurs");
 		obtenirAuteur(livre);
 		nouvelleLigne();
@@ -20,12 +20,12 @@ public class VisiteurEntier extends Visiteur{
 			nouvelleColonne();
 		}
 		
-		texteMoyenTitre(chapitre.titre);
+		texteMoyenTitre(chapitre.obtenirTitre());
 		nbParaCol++;
 	}
 
 	public void visit(Paragraphe paragraphe) {
-		ajouterTexte(paragraphe.paragraphe);
+		ajouterTexte(paragraphe.obtenirParagraphe());
 		sauterLigne();
 	}
 }

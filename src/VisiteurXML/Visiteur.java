@@ -1,6 +1,7 @@
 package VisiteurXML;
 
 import java.util.Iterator;
+import java.util.List;
 
 public abstract class Visiteur implements VisiteurIF {
 	private static String texteHTML;
@@ -26,8 +27,10 @@ public abstract class Visiteur implements VisiteurIF {
 	}
 
 	protected void obtenirAuteur(Livre livre){
-		if(livre.auteur.size() > 0){
-			iterator = livre.auteur.iterator();
+		List<String> auteur = livre.obtenirAuteur();
+		
+		if(auteur.size() > 0){
+			iterator = auteur.iterator();
 			while(iterator.hasNext()){
 				texteItalique(iterator.next());
 				sauterLigne();
@@ -56,7 +59,7 @@ public abstract class Visiteur implements VisiteurIF {
 	}
 
 	protected void ajouterImageLivre(Livre livre){
-		 if(livre.titre.equals("Fables fameuses"))
+		 if(livre.obtenirTitre().equals("Fables fameuses"))
 			texteHTML += "<img src='file:images/imageLab2.jpg'/>";
 	}
 	

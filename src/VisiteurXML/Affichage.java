@@ -82,7 +82,6 @@ public class Affichage extends JFrame implements ActionListener {
 			
 			formaterTexteArbre(noeud, visiteur);
 			pane.setText(visiteur.obtenirTexteHTML());
-			//frame.pack();
 		}
 	}
 
