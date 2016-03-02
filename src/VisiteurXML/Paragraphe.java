@@ -1,15 +1,19 @@
 package VisiteurXML;
 
 public class Paragraphe extends Noeud{
-	String paragraphe;
+	private String paragraphe;
 
 	public Paragraphe(Chapitre chapitre) {
-		super(chapitre);
+		super.definirParent(chapitre);
 		paragraphe = "";
 	}
 
 	public void definirParagraphe(String paragraphe){
 		this.paragraphe = paragraphe;
+	}
+	
+	public String obtenirParagraphe(){
+		return paragraphe;
 	}
 
 	public void accept(VisiteurIF visiteur) {

@@ -1,6 +1,7 @@
 package VisiteurXML;
 
 import java.util.Iterator;
+import java.util.List;
 
 public abstract class Visiteur implements VisiteurIF {
 	private static String texteHTML;
@@ -11,16 +12,25 @@ public abstract class Visiteur implements VisiteurIF {
 	}
 	
 	public void debutTexteHTML(){
-		texteHTML = "<HTML><TABLE WIDTH=100% HEIGHT=100% BORDER = 0 CELLSPACING=0 BGCOLOR=\"black\"><TR><TD COLSPAN = 3 BGCOLOR=\"yellow\" ALIGN=\"center\">";
+		texteHTML = "<HTML><TABLE WIDTH=100% HEIGHT=100% BORDER = 0 CELLSPACING=0 BGCOLOR=\"black\"><TR><TD ";
 	}
 	
 	public void finTexteHTML(){
 		texteHTML += "</TD></TR></TABLE></HTML>";
 	}
+	
+	protected void affichageLivreEntierOuTabMat(String typeOptions){
+		switch(typeOptions){
+		case "TabMat" : texteHTML += "WIDTH=550 HEIGHT=620 BGCOLOR=\"yellow\" ALIGN=\"center\">"; 	break;
+		case "Entier" : texteHTML += "COLSPAN = 3 BGCOLOR=\"yellow\" ALIGN=\"center\">";			break;
+		}
+	}
 
 	protected void obtenirAuteur(Livre livre){
-		if(livre.auteur.size() > 0){
-			iterator = livre.auteur.iterator();
+		List<String> auteur = livre.obtenirAuteur();
+		
+		if(auteur.size() > 0){
+			iterator = auteur.iterator();
 			while(iterator.hasNext()){
 				texteItalique(iterator.next());
 				sauterLigne();
@@ -49,7 +59,7 @@ public abstract class Visiteur implements VisiteurIF {
 	}
 
 	protected void ajouterImageLivre(Livre livre){
-		 if(livre.titre.equals("Fables fameuses"))
+		 if(livre.obtenirTitre().equals("Fables fameuses"))
 			texteHTML += "<img src='file:images/imageLab2.jpg'/>";
 	}
 	

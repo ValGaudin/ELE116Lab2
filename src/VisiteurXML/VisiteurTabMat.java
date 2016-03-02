@@ -4,13 +4,14 @@ public class VisiteurTabMat extends Visiteur{
 
 	public void visit(Livre livre) {
 		debutTexteHTML();
+		affichageLivreEntierOuTabMat("TabMat");
 		ajouterImageLivre(livre);
 		nouvelleColonne();
-		texteGrosTitre(livre.titre);
+		texteGrosTitre(livre.obtenirTitre());
 	}
 
 	public void visit(Chapitre chapitre) {
-		texteMoyenTitre(chapitre.titre);
+		texteMoyenTitre(chapitre.obtenirTitre());
 	}
 
 	public void visit(Paragraphe paragraphe) {

@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Livre extends Noeud{
-	List<String> auteur;
-	List<Chapitre> chapitre;
-	String titre;
+	private List<String> auteur;
+	private List<Chapitre> chapitre;
+	private String titre;
 
 	public Livre() {
-		super();
+		super.definirParent(null);
 		auteur = new ArrayList<String>();
 		chapitre = new ArrayList<Chapitre>();
 		titre = "";
@@ -24,18 +24,21 @@ public class Livre extends Noeud{
 	}
 
 	public void ajouterChapitre(Chapitre chapitre){
-		super.ajouterEnfant(chapitre);
 		this.chapitre.add(chapitre);
 	}
 
 	public String obtenirTitre(){
 		return titre;
 	}
+	
+	public List<String> obtenirAuteur(){
+		return auteur;
+	}
 
 	public void accept(VisiteurIF visiteur) {
 		visiteur.visit(this);
 
-		for(NoeudIF noeud : this.obtEnfants()){
+		for(NoeudIF noeud : chapitre){
 			noeud.accept(visiteur);
 		}
 	}
