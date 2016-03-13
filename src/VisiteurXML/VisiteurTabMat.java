@@ -1,20 +1,48 @@
 package VisiteurXML;
 
+/**
+ * Classe <b><i>VisiteurTabMat</i></b> héritée de {@link Visiteur Visiteur} <br><br>
+ * VisiteurTabMat est une classe qui permet de créer un visiteur qui formatera le livre en format HTML
+ * selon l'affichage "Table des matières". 
+ */
 public class VisiteurTabMat extends Visiteur{
-
-	public void visit(Livre livre) {
+	/**
+	 * <b><i>visiter</i></b> 
+	 * permet de visiter un Livre pour créer une version HTLM de son contenu.
+	 * 
+	 * @param livre le livre à visiter
+	 */
+	public void visiter(Livre livre) {
 		debutTexteHTML();
 		affichageLivreEntierOuTabMat("TabMat");
 		ajouterImageLivre(livre);
 		nouvelleColonne();
-		texteGrosTitre(livre.obtenirTitre());
+		grosTitre(livre.obtenirTitre());
+		sauterLigne();
+		texteGras("Auteurs");
+		sauterLigne();
+		formaterAuteur(livre);
+		sauterLigne();
 	}
 
-	public void visit(Chapitre chapitre) {
-		texteMoyenTitre(chapitre.obtenirTitre());
+	/**
+	 * <b><i>visiter</i></b> 
+	 * permet de visiter un Chapitre pour créer une version HTLM de son contenu.
+	 * 
+	 * @param chapitre le chapitre à visiter
+	 */
+	public void visiter(Chapitre chapitre) {
+		moyenTitre(chapitre.obtenirTitre());
 	}
 
-	public void visit(Paragraphe paragraphe) {
+	/**
+	 * <b><i>visiter</i></b> 
+	 * permet de visiter un Paragraphe pour créer une version HTLM de son contenu.
+	 * (ici, elle est vide car une table des matières ne comporte pas de paragraphe !).
+	 * 
+	 * @param paragraphe le paragraphe à visiter
+	 */
+	public void visiter(Paragraphe paragraphe) {
 		//Do nothing
 	}
 }

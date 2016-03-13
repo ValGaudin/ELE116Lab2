@@ -13,42 +13,56 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+/**
+ * Classe <b><i>Affichage</i></b> <br><br>
+ * 
+ * Affichage est une classe qui permet d'afficher le contenu d'un fichier XML
+ * dans une fenêtre selon une certaine mise en page. 
+ */
 @SuppressWarnings("serial")
 public class Affichage extends JFrame implements ActionListener {
-	JFrame frame = new JFrame();
-	JEditorPane pane = new JEditorPane();
-	JMenuBar menuBar = new JMenuBar();
-	JScrollPane scroll = new JScrollPane(pane);
-	LecteurXML lecteur = new LecteurXML();
-	VisiteurIF visiteur;
-	NoeudIF noeud;
+	//Objets nécessaires à l'affichage
+	private JFrame frame = new JFrame();
+	private JEditorPane pane = new JEditorPane();
+	private JMenuBar menuBar = new JMenuBar();
+	private JScrollPane scroll = new JScrollPane(pane);
+	private LecteurXML lecteur = new LecteurXML();
+	private VisiteurIF visiteur;
+	private NoeudIF noeud;
 
-	JMenu boutonFichier = new JMenu("Fichier"), 
-			boutonOptions = new JMenu("Options");
+	//Boutons principaux du menu
+	private JMenu Fichier = new JMenu("Fichier"), 
+				  Options = new JMenu("Options");
 
-	JMenuItem sousBoutonOuvrir = new JMenuItem("Ouvrir fichier XML"), 
-			sousBoutonTable = new JMenuItem("Table des matières"), 
-			sousBoutonLivre =new JMenuItem("Livre entier");
+	//Sous-Boutons du menu
+	private JMenuItem BoutonOuvrir = new JMenuItem("Ouvrir fichier XML"), 
+			  		  BoutonTable  = new JMenuItem("Table des matières"), 
+			  		  BoutonLivre  = new JMenuItem("Livre entier");
 
+	/**
+	 * Constructeur de la classe <b><i>Affichage</i></b> 
+	 * initialise tout notre fenêtre.
+	 */
 	public Affichage(){
-		sousBoutonOuvrir.addActionListener(this);
-		sousBoutonTable.addActionListener(this);
-		sousBoutonLivre.addActionListener(this);
+		BoutonOuvrir.addActionListener(this);
+		BoutonTable.addActionListener(this);
+		BoutonLivre.addActionListener(this);
 
 		frame.setSize(1100, 690);
 		frame.setLocationRelativeTo(null);
 		
+		Fichier.add(BoutonOuvrir);
+		Options.add(BoutonTable);
+		Options.add(BoutonLivre);
 
-		boutonFichier.add(sousBoutonOuvrir);
-		boutonOptions.add(sousBoutonTable);
-		boutonOptions.add(sousBoutonLivre);
-
-		menuBar.add(boutonFichier);
-		menuBar.add(boutonOptions);
+		menuBar.add(Fichier);
+		menuBar.add(Options);
 
 		frame.setJMenuBar(menuBar);
 
-		pane.setContentType("text/html");
+		pane.setContentType("text/html");	
+		pane.setText("<HTML><TABLE WIDTH=100% HEIGHT=100% BORDER = 0 CELLSPACING=0><TR><TD ALIGN=\"center\"><h1>Pour visionner un livre,<br> "
+					 + "veuillez sélectionner le fichier XML lui correspondant via \"Fichier\".</h1></TD></TR></TABLE></HTML>");
 		pane.setEditable(false);
 
 		frame.add(scroll);
@@ -56,35 +70,42 @@ public class Affichage extends JFrame implements ActionListener {
 		frame.setVisible(true);
 	}
 
-	public static void main(String[] args) throws Throwable
-	{
-		new Affichage();
-	}
-
-	public void actionPerformed(ActionEvent arg0) {
-		if(arg0.getSource().equals(sousBoutonOuvrir)){
-			System.out.println(arg0.getActionCommand());
-
+	/**
+	 * <b><i>actionPerformed</i></b> 
+	 * permet de récupérer l'action produite par l'utilisateur et la traiter.
+	 * 
+	 * @param action l'action produite par l'utilisateur
+	 */
+	public void actionPerformed(ActionEvent action) {
+		//L'utilisateur a appuyé sur Ouvrir fichier XML
+		if(action.getSource().equals(BoutonOuvrir)){
 			ouvrirFichier();
 			noeud = lecteur.obtenirLivreCourant();
-
+			pane.setText("<HTML><TABLE WIDTH=100% HEIGHT=100% BORDER = 0 CELLSPACING=0><TR><TD ALIGN=\"center\"><h1>Le livre sélectionné a été généré.<br>"
+						 + "Veuillez choisir un mode d'affichage pour visionner son contenu via  le  \"Options\".</h1></TD></TR></TABLE></HTML>");
+		
 		}else{ 
-			if(arg0.getSource().equals(sousBoutonTable)){
-				System.out.println(arg0.getActionCommand());
-
+			//L'utilisateur a appuyé sur Table des matières
+			if(action.getSource().equals(BoutonTable)){
 				visiteur = new VisiteurTabMat();
-
-			}else if(arg0.getSource().equals(sousBoutonLivre)){
-				System.out.println(arg0.getActionCommand());
-
+			
+				//L'utilisateur a appuyé sur Livre entier
+			}else if(action.getSource().equals(BoutonLivre)){
 				visiteur = new VisiteurEntier();
 			}
 			
 			formaterTexteArbre(noeud, visiteur);
+			//Affichage voulu
 			pane.setText(visiteur.obtenirTexteHTML());
 		}
 	}
 
+	/**
+	 * <b><i>ouvrirFichier</i></b> 
+	 * permet d'ouvrir une boîte de dialogue dans le dossier Downloads de l'ordinateur 
+	 * et filtrer tous les fichiers sauf les XML.
+	 * 
+	 */
 	void ouvrirFichier(){
 		JFileChooser chooser = new JFileChooser(new File(System.getProperty("user.home") + File.separator + "Downloads"));
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("xml files (*.xml)", "xml");
@@ -97,9 +118,25 @@ public class Affichage extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * <b><i>formaterTexteArbre</i></b> 
+	 * permet de formateur l'arbre de données selon la mise en page voulue.
+	 * 
+	 * @param noeud la racine de l'arbre de données
+	 * @param visiteur la mise en page voulue
+	 */
 	public void formaterTexteArbre(NoeudIF noeud, VisiteurIF visiteur){
-		visiteur.debutTexteHTML();
-		noeud.accept(visiteur);
-		visiteur.finTexteHTML();
+		noeud.accepter(visiteur);
+	}
+	
+	/**
+	 * <b><i>main</i></b> 
+	 * permet de rouler l'application.
+	 * 
+	 * @param args les throwables
+	 */
+	public static void main(String[] args)
+	{
+		new Affichage();
 	}
 }

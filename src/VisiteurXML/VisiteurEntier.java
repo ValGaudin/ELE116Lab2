@@ -1,30 +1,55 @@
 package VisiteurXML;
 
+/**
+ * Classe <b><i>VisiteurTabMat</i></b> héritée de {@link Visiteur Visiteur} <br><br>
+ * VisiteurTabMat est une classe qui permet de créer un visiteur qui formatera le livre en format HTML
+ * selon l'affichage "Livre entier". 
+ */
 public class VisiteurEntier extends Visiteur{
-	private int nbParaCol = 1;
+	//Entier contenant le nombre de paragraphe affiché (pour la gestion des colonnes)
+	private int nbPara = 0;
 
-	public void visit(Livre livre) {
+	/**
+	 * <b><i>visiter</i></b> 
+	 * permet de visiter un Livre pour créer une version HTLM de son contenu.
+	 * 
+	 * @param livre le livre à visiter
+	 */
+	public void visiter(Livre livre) {
 		debutTexteHTML();
 		affichageLivreEntierOuTabMat("Entier");
-		texteGrosTitre(livre.obtenirTitre());
-		textePetitTitre("Auteurs");
-		obtenirAuteur(livre);
+		grosTitre(livre.obtenirTitre());
+		petitTitre("Auteurs");
+		formaterAuteur(livre);
 		nouvelleLigne();
 	}
 
-	public void visit(Chapitre chapitre) {
+	/**
+	 * <b><i>visiter</i></b> 
+	 * permet de visiter un Chapitre pour créer une version HTLM de son contenu.
+	 * 
+	 * @param chapitre le chapitre à visiter
+	 */
+	public void visiter(Chapitre chapitre) {
+		nbPara++;
 		sauterLigne();
-		if(nbParaCol % 4 == 0){
+		if(nbPara % 4 == 0){
 			nouvelleColonne();
-			ajouterImageLivre((Livre) chapitre.obtParent());
+			ajouterImageLivre((Livre) chapitre.obtenirParent());
 			nouvelleColonne();
 		}
 		
-		texteMoyenTitre(chapitre.obtenirTitre());
-		nbParaCol++;
+		moyenTitre(chapitre.obtenirTitre());
 	}
 
-	public void visit(Paragraphe paragraphe) {
+	/**
+	 * <b><i>visiter</i></b> 
+	 * permet de visiter un Paragraphe pour créer une version HTLM de son contenu.
+	 * (ici, elle est vide car une table des matières ne comporte pas de paragraphe !).
+	 * 
+	 * @param paragraphe le paragraphe à visiter
+	 */
+	public void visiter(Paragraphe paragraphe) {
 		ajouterTexte(paragraphe.obtenirParagraphe());
 		sauterLigne();
 	}
