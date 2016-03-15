@@ -13,7 +13,7 @@ import java.util.List;
  *
  **/
 public abstract class Visiteur implements VisiteurIF {
-	private static String texteHTML;
+	private static String texteHTML = "";
 	private Iterator<String> iterator;
 	
 	/**

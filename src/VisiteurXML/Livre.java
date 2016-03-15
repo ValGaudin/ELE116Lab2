@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Livre extends Noeud{
 	private List<String> auteur;
-	private List<Chapitre> chapitre;
+	private List<NoeudIF> chapitre;
 	private String titre;
 
 	/**
@@ -19,7 +19,7 @@ public class Livre extends Noeud{
 	public Livre() {
 		super.definirParent(null);
 		auteur = new ArrayList<String>();
-		chapitre = new ArrayList<Chapitre>();
+		chapitre = new ArrayList<NoeudIF>();
 		titre = "";
 	}
 
@@ -39,7 +39,7 @@ public class Livre extends Noeud{
 	 * 
 	 * @param chapitre le chapitre à ajouter
 	 */
-	public void ajouterChapitre(Chapitre chapitre){
+	public void ajouterChapitre(NoeudIF chapitre){
 		this.chapitre.add(chapitre);
 	}
 	
