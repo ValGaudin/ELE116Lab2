@@ -27,8 +27,8 @@ public class Affichage extends JFrame implements ActionListener {
 	private JMenuBar menuBar = new JMenuBar();
 	private JScrollPane scroll = new JScrollPane(pane);
 	private LecteurXML lecteur = new LecteurXML();
-	private VisiteurIF visiteur;
-	private NoeudIF noeud;
+	private VisiteurIF visiteur = null;
+	private NoeudIF noeud = null;
 
 	//Boutons principaux du menu
 	private JMenu Fichier = new JMenu("Fichier"), 
@@ -38,7 +38,17 @@ public class Affichage extends JFrame implements ActionListener {
 	private JMenuItem BoutonOuvrir = new JMenuItem("Ouvrir fichier XML"), 
 			  		  BoutonTable  = new JMenuItem("Table des matières"), 
 			  		  BoutonLivre  = new JMenuItem("Livre entier");
+	
+	private static final String TEXTE_ETAT0 = "<HTML><TABLE WIDTH=100% HEIGHT=100% BORDER = 0 CELLSPACING=0><TR>"
+											+ "<TD ALIGN=\"center\"><h1>Pour visionner un livre,<br> "
+					 						+ "veuillez sélectionner le fichier XML lui correspondant via "
+					 						+ "\"Fichier\".</h1></TD></TR></TABLE></HTML>";
 
+	private static final String TEXTE_ETAT1 = "<HTML><TABLE WIDTH=100% HEIGHT=100% BORDER = 0 CELLSPACING=0><TR>"
+											+ "<TD ALIGN=\"center\"><h1>Le livre sélectionné a été généré.<br>"
+			 								+ "Veuillez choisir un mode d'affichage pour visionner son contenu "
+			 								+ "via  le  \"Options\".</h1></TD></TR></TABLE></HTML>";
+	
 	/**
 	 * Constructeur de la classe <b><i>Affichage</i></b> 
 	 * initialise tout notre fenêtre.
@@ -61,8 +71,7 @@ public class Affichage extends JFrame implements ActionListener {
 		frame.setJMenuBar(menuBar);
 
 		pane.setContentType("text/html");	
-		pane.setText("<HTML><TABLE WIDTH=100% HEIGHT=100% BORDER = 0 CELLSPACING=0><TR><TD ALIGN=\"center\"><h1>Pour visionner un livre,<br> "
-					 + "veuillez sélectionner le fichier XML lui correspondant via \"Fichier\".</h1></TD></TR></TABLE></HTML>");
+		pane.setText(TEXTE_ETAT0);
 		pane.setEditable(false);
 
 		frame.add(scroll);
@@ -80,11 +89,8 @@ public class Affichage extends JFrame implements ActionListener {
 		//L'utilisateur a appuyé sur Ouvrir fichier XML
 		if(action.getSource().equals(BoutonOuvrir)){
 			ouvrirFichier();
-			noeud = lecteur.obtenirLivreCourant();
-			pane.setText("<HTML><TABLE WIDTH=100% HEIGHT=100% BORDER = 0 CELLSPACING=0><TR><TD ALIGN=\"center\"><h1>Le livre sélectionné a été généré.<br>"
-						 + "Veuillez choisir un mode d'affichage pour visionner son contenu via  le  \"Options\".</h1></TD></TR></TABLE></HTML>");
-		
-		}else{ 
+			
+		}else if(noeud != null){ 
 			//L'utilisateur a appuyé sur Table des matières
 			if(action.getSource().equals(BoutonTable)){
 				visiteur = new VisiteurTabMat();
@@ -106,7 +112,7 @@ public class Affichage extends JFrame implements ActionListener {
 	 * et filtrer tous les fichiers sauf les XML.
 	 * 
 	 */
-	void ouvrirFichier(){
+	public void ouvrirFichier(){
 		JFileChooser chooser = new JFileChooser(new File(System.getProperty("user.home") + File.separator + "Downloads"));
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("xml files (*.xml)", "xml");
 		chooser.setFileFilter(filter);
@@ -115,6 +121,11 @@ public class Affichage extends JFrame implements ActionListener {
 
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
 			LecteurXML.lireXML(chooser.getSelectedFile());
+			noeud = lecteur.obtenirLivreCourant();
+			pane.setText(TEXTE_ETAT1);
+		}else{
+			if(noeud == null)
+				pane.setText(TEXTE_ETAT0);
 		}
 	}
 	

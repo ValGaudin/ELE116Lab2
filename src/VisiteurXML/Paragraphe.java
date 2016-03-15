@@ -13,7 +13,7 @@ public class Paragraphe extends Noeud{
 	 * 
 	 * @param chapitre un le chapitre du livre
 	 */
-	public Paragraphe(Chapitre chapitre) {
+	public Paragraphe(NoeudIF chapitre) {
 		super.definirParent(chapitre);
 		paragraphe = "";
 	}

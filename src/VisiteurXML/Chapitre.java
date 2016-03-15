@@ -8,7 +8,7 @@ import java.util.List;
  * Chapitre est une classe qui permet de créer un noeud qui contient une liste de paragraphes et un titre. 
  */
 public class Chapitre extends Noeud {
-	private List<Paragraphe> paragraphe;
+	private List<NoeudIF> paragraphe;
 	private String titre;
 
 	/**
@@ -17,9 +17,9 @@ public class Chapitre extends Noeud {
 	 * 
 	 * @param livre le parent du chapitre
 	 */
-	public Chapitre(Livre livre) {
+	public Chapitre(NoeudIF livre) {
 		super.definirParent(livre);
-		paragraphe = new ArrayList<Paragraphe>();
+		paragraphe = new ArrayList<NoeudIF>();
 		titre = "";
 	}
 
@@ -29,7 +29,7 @@ public class Chapitre extends Noeud {
 	 * 
 	 * @param paragraphe le paragraphe à ajouter
 	 */
-	public void ajouterParagraphe(Paragraphe paragraphe){
+	public void ajouterParagraphe(NoeudIF paragraphe){
 		this.paragraphe.add(paragraphe);
 	}
 	
